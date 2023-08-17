@@ -240,7 +240,10 @@ html_theme_options = {
     "footer_start": ["pandas_footer", "sphinx-version"],
     "github_url": "https://github.com/pandas-dev/pandas",
     "twitter_url": "https://twitter.com/pandas_dev",
-    "analytics": {"google_analytics_id": "G-5RE31C1RNW"},
+    "analytics": {
+        "plausible_analytics_domain": "pandas.pydata.org",
+        "plausible_analytics_url": "https://views.scientific-python.org/js/script.js",
+    },
     "logo": {"image_dark": "https://pandas.pydata.org/static/img/pandas_white.svg"},
     "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
     "switcher": {
@@ -348,10 +351,8 @@ for old, new in moved_classes:
     methods = [
         x for x in dir(klass) if not x.startswith("_") or x in ("__iter__", "__array__")
     ]
-
-    for method in methods:
-        # ... and each of its public methods
-        moved_api_pages.append((f"{old}.{method}", f"{new}.{method}"))
+    # ... and each of its public methods
+    moved_api_pages.extend((f"{old}.{method}", f"{new}.{method}") for method in methods)
 
 if include_api:
     html_additional_pages = {
